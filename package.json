@@ -1,0 +1,21 @@
+{
+  "name": "gruenes_feuer",
+  "version": "0.0.1",
+  "description": "Website for the documentation \"Grünes Feuer\" from Bernd Siering and 3 film guys.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "BlackDayz",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "ejs": "^3.1.7",
+    "express": "^4.18.0",
+    "express-session": "^1.17.2",
+    "mysql": "^2.18.1",
+    "nconf": "^0.12.0",
+    "nodemon": "^2.0.15",
+    "validator": "^13.7.0"
+  }
+}

@@ -1,0 +1,21 @@
+{
+    "sessionSecret": "",
+    "domain": "",
+    "port": "8080",
+    "cors": {
+        "headers": {
+            "Access-Control-Allow-Origin": "https://",
+            "Access-Control-Allow-Methods": "POST, GET, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type",
+            "Access-Control-Max-Age": 86400000000,
+            "withCredentials": true,
+            "Content-Type": "text/html"
+        }
+    },
+    "env": "development",
+    "routing": {
+        "homepage": "/",
+        "impressum": "impressum",
+        "privacy": "privacy"
+    }
+}
