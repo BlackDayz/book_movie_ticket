@@ -1,0 +1,10 @@
+{
+    "tables": {
+        "reservations": ""
+    },
+    "auto_install": {
+        "tables": [
+            ""
+        ]
+    }
+}
