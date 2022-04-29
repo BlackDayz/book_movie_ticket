@@ -29,7 +29,7 @@ window.addEventListener('load', function () {
 
                 console.log(currentImage);
 
-                while (newImage === 'img/'+currentImage) {
+                while (newImage === 'img/' + currentImage) {
                     newImage = generateRandomIndex();
                 }
 
@@ -43,9 +43,7 @@ window.addEventListener('load', function () {
                 mediaSlide.classList.remove('home_header_right_animation_first');
             }, 2001);
             textIsLeft = false;
-        } 
-        
-        else {
+        } else {
             textSlide.classList.add('home_header_left_animation_last')
             mediaSlide.classList.add('home_header_right_animation_last');
             setTimeout(() => {
@@ -84,19 +82,44 @@ window.addEventListener('load', function () {
 
 
 
-    function get_tickets_next({time}) {
+    function get_tickets_next({
+        time
+    }) {
         document.getElementById('home_tickets_choose_time').classList.add('display-none');
         document.getElementById('home_tickets_user_input').classList.remove('display-none');
 
         document.getElementById('sendUserInput').addEventListener('submit', (e) => {
             e.preventDefault();
-           
-            let data = []
-            if(e.isTrusted) {
-                console.log(e)
-                for(let i in e.target) {
-                    console.log(target[i]);
+
+            if (e.isTrusted) {
+                const firstname = document.getElementById('firstname').value;
+                const lastname = document.getElementById('lastname').value;
+                const email = document.getElementById('email').value;
+                const personnumber = document.getElementById('personnumber_input').value;
+
+                const data = {
+                    firstName: firstname,
+                    lastName: lastname,
+                    email: email,
+                    personNumber: personnumber,
+                    time: time
                 }
+                const options = {
+                    method: 'POST',
+                    headers: {
+                        "Content-type": "application/json",
+                    },
+                    withCredentials: true,
+                    body: JSON.stringify(data)
+                }
+
+                fetch('http://192.168.1.210:8080/reserveticket', options)
+                    .then((res) => {
+                        console.log(res);
+                    })
+                    .catch((err) => {
+                        console.error(err)
+                    });
             }
         });
     }
