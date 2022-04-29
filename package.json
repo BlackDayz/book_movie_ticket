@@ -1,6 +1,6 @@
 {
   "name": "gruenes_feuer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Website for the documentation \"Grünes Feuer\" from Bernd Siering and 3 film guys.",
   "main": "server.js",
   "scripts": {
