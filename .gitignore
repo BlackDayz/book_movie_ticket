@@ -1,2 +1,7 @@
 src/json/config/config.json
 node_modules/
+
+server/db/dbconfig.json
+server/db/table.json
+
+.env
