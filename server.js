@@ -12,7 +12,6 @@ const jsonParser = bodyParser.json()
 
 serverconfig.argv().env().file({file: './src/json/config/config.json'});
 
-
 require('./server-init')(app, express);
 require('./server/route/mainroute')({
     app: app,
