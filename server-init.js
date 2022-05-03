@@ -1,9 +1,10 @@
 const nconf = require('nconf');
 const cors = require('cors');
-const session = require('express-session')
+const session = require('express-session');
 
 module.exports = (app) => {
     nconf.argv().env().file({file: './src/json/config/config.json'});
+    require('dotenv').config({path: __dirname + '/.env'});
 
     app.use(cors());
     app.use(session({

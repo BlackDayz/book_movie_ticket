@@ -113,6 +113,35 @@ window.addEventListener('load', function () {
                     body: JSON.stringify(data)
                 }
 
+                document.getElementById('loading').classList.remove('display-none');
+                document.getElementById('loading_remove').classList.add('display-none');
+
+                const loading_quotes = [
+                    "Es lädt... immernoch... mal schauen.. ja, immernoch",
+                    "Während dessen Du hier so wartest kannst du ja mal bei unserem Youtube Kanal vorbeischauen.",
+                    "Der Server braucht anscheinend noch eine Mittagspause.",
+                    "Sollte Du keine E-Mail nach maximal 1h bekommen haben, melde dich bei info@gruenes-feuer.de und gebe die gleichen Daten an, die Du gerade eingeben hast."
+                ];
+
+                const loading_quote_div = document.getElementById('loading_quote');
+                console.log(loading_quotes[loading_quotes.length - 1])
+                loading_quote_div.innerHTML = loading_quotes[loading_quotes.length - 1];
+                setInterval(() => {
+                    loading_quote_div.classList.add('loading_quote_fade_out');
+                    setTimeout(() => {
+                        loading_quote_div.style.opacity = '0';
+                        loading_quote_div.classList.remove('loading_quote_fade_out');
+                        loading_quote_div.innerHTML = loading_quotes[Math.floor(Math.random() * loading_quotes.length)];    
+                        loading_quote_div.classList.add('loading_quote_fade_in');
+                        setTimeout(() => {
+                            loading_quote_div.style.opacity = '1';
+                            loading_quote_div.classList.remove('loading_quote_fade_in');
+                        }, 500);
+                    }, 500);
+                    
+                }, 15000);
+
+
                 fetch('http://192.168.1.210:8080/reserveticket', options)
                     .then((res) => {
                         console.log(res);

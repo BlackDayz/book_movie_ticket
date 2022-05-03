@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
+
     <head>
         <%- include('./_head/head.ejs') %>
-        <title>Gr&uuml;nes Feuer Naturdokumentation</title>
-        <link href="css/homepage/style.css" rel="stylesheet"/>
+            <title>Gr&uuml;nes Feuer Naturdokumentation</title>
+            <link href="css/homepage/style.css" rel="stylesheet" />
     </head>
+
     <body>
         <header class="home_header">
             <div class="home_header_title">
                 <div class="home_header_right right" id="media_slide">
-                    <img src="img/wolf_header.jpg" id="media"/>
+                    <img src="img/wolf_header.jpg" id="media" />
                 </div>
                 <div class="home_header_left left" id="text_slide">
                     <h1>Gr&uuml;nes Feuer</h1>
@@ -17,43 +19,71 @@
                     <h3>Am 11.06.2022 in der Brotfabrik</h3>
                 </div>
             </div>
-            <a href="#grab_your_tickets"><div class="header_more_info">
-                <p>Tickets sichern</p>
-                <img src="img/double-down-arrow-24px.png" />
-            </div></a>
+            <a href="#grab_your_tickets">
+                <div class="header_more_info">
+                    <p>Tickets sichern</p>
+                    <img src="img/double-down-arrow-24px.png" />
+                </div>
+            </a>
         </header>
         <main id="grab_your_tickets">
-            <h3 class="center bold">Reserviere Dir jetzt Tickets</h3>
-
-            <div class="home_tickets_choose_time" id="home_tickets_choose_time">
-                <h4 class="center bold big">Suche dir eine Uhrzeit aus</h4>
-                <div class="left cursor-pointer" id="timeinput_1" data-ticket_time="1530">
-                    <p>15:30 Uhr</p>
+            <div class="display-none loading absolute" id="loading">
+                <div class="loader">
+                    <div class="loader-inner">
+                        <div class="loader-line-wrap">
+                            <div class="loader-line"></div>
+                        </div>
+                        <div class="loader-line-wrap">
+                            <div class="loader-line"></div>
+                        </div>
+                        <div class="loader-line-wrap">
+                            <div class="loader-line"></div>
+                        </div>
+                        <div class="loader-line-wrap">
+                            <div class="loader-line"></div>
+                        </div>
+                        <div class="loader-line-wrap">
+                            <div class="loader-line"></div>
+                        </div>
+                    </div>
+                    <p class="loading_quote absolute white" id="loading_quote"></p>
                 </div>
-                <div class="right cursor-pointer" id="timeinput_2" data-ticket_time="2400">
-                    <p>24:00 Uhr</p>
-                </div>
+                
             </div>
+            <div id="loading_remove">
+                <h3 class="center bold">Reserviere Dir jetzt Tickets</h3>
 
-            <div class="home_tickets_user_input display-none" id="home_tickets_user_input">
-                <p class="cursor-pointer" id="back_to_timechoose">Zurück</p>
-                <h4>Bitte trage deine Daten hier ein</h4>
-                <form method="POST" id="sendUserInput">
-                    <label>Dein Vorname</label>
-                    <input type="text" id="firstname" placeholder="Vorname" min="3" max="15"/>
-                    <label>Dein Nachname</label>
-                    <input type="text" id="lastname" placeholder="Nachname" min="3" max="15" required/>
-                    <label>Deine E-Mail</label>
-                    <input type="email" id="email" placeholder="E-Mail Adresse" required/>
-                    <label>Personenanzahl die inklusive Dir mitkommen.</label>
-                    <input type="number" name="personnumber" min="1" max="10" id="personnumber_input" required/>
-                    
-                    <input type="submit" value="Reservieren"/>
-                </form>
+                <div class="home_tickets_choose_time" id="home_tickets_choose_time">
+                    <h4 class="center bold big">Suche dir eine Uhrzeit aus</h4>
+                    <div class="left cursor-pointer" id="timeinput_1" data-ticket_time="1530">
+                        <p>15:30 Uhr</p>
+                    </div>
+                    <div class="right cursor-pointer" id="timeinput_2" data-ticket_time="2400">
+                        <p>24:00 Uhr</p>
+                    </div>
+                </div>
+
+                <div class="home_tickets_user_input display-none" id="home_tickets_user_input">
+                    <p class="cursor-pointer" id="back_to_timechoose">Zurück</p>
+                    <h4>Bitte trage deine Daten hier ein</h4>
+                    <form method="POST" id="sendUserInput">
+                        <label>Dein Vorname</label>
+                        <input type="text" id="firstname" placeholder="Vorname" min="3" max="15" required />
+                        <label>Dein Nachname</label>
+                        <input type="text" id="lastname" placeholder="Nachname" min="3" max="15" required />
+                        <label>Deine E-Mail</label>
+                        <input type="email" id="email" placeholder="E-Mail Adresse" required />
+                        <label>Personenanzahl die inklusive Dir mitkommen.</label>
+                        <input type="number" name="personnumber" min="1" max="10" id="personnumber_input" required />
+
+                        <input type="submit" value="Reservieren" />
+                    </form>
+                </div>
             </div>
         </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="js/index.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="js/index.js"></script>
     </body>
+
 </html>

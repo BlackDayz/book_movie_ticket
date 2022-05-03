@@ -1,9 +1,13 @@
 {
     "tables": {
-        "reservations": ""
+        "reservations": "",
+        "seats": "",
+        "tmp_user": ""
     },
     "auto_install": {
         "tables": [
+            "",
+            "",
             ""
         ]
     }

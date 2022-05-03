@@ -1,8 +1,6 @@
 const nconf = require('nconf');
 const validator = require('validator');
-const database = require('../../db/db');
-
-const tables = require('../../db/table.json');
+const { reserveTickets } = require('../../../utils/functions/reserveTickets/reserveTickets');
 
 module.exports = (app, parser) => {
     app.post(nconf.get('routing:mainRoute')+nconf.get('routing:reserveTicket'), parser, async (req, res) => {
@@ -21,22 +19,20 @@ module.exports = (app, parser) => {
         }
 
         //! VALIDATE INPUT
-        email = validator.isEmail(email);
-        time = validator.isInt(time);
-        personNumber = validator.isInt(personNumber, {min: 1, max: 10});
-
-        if(!firstName || !lastName || !email || !personNumber || !time) {
+        if(!validator.isEmail(email) || !validator.isInt(time) || !validator.isInt(personNumber, {min: 1, max: 10})) {
             res.status(nconf.get('status:BAD_REQUEST'))
         }
 
+        const reserveTicketsResult = await reserveTickets({
+            firstname: firstName,
+            lastname: lastName,
+            email: email,
+            personNumber: personNumber,
+            time: time,
+        })
 
-        database.query(`SELECT email FROM ${tables.tables.reservations} WHERE email = ?`, [email])
-            .then(async res => {
+        res.redirect('/loading');
 
-            })
-            .catch(err => {
-                
-            })
-
+        console.log(reserveTicketsResult || 'Kein return');
     });
 }

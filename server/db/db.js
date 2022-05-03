@@ -10,7 +10,8 @@ class Database {
       user: dbconfig.user,
       password: dbconfig.password,
       database: dbconfig.database,
-      debug: nconf.get('db_debug')
+      debug: nconf.get('db_debug'),
+      multipleStatements: true
     });
 
     this.connection.getConnection((err, connection) => {

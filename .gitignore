@@ -4,4 +4,6 @@ node_modules/
 server/db/dbconfig.json
 server/db/table.json
 
+utils/email/user/*.html
+
 .env
