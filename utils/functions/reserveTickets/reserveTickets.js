@@ -15,7 +15,7 @@ module.exports.reserveTickets = async ({firstname, lastname, email, personNumber
 
     if(user) {
         return {
-            error: "Email already exists",
+            message: "Email already exists",
             status: config.status.FOUND
         };
     }
@@ -26,15 +26,15 @@ module.exports.reserveTickets = async ({firstname, lastname, email, personNumber
 
     if(!free_seats) {
         return {
-            error: "Es sind keine Sitzplätze mehr frei. Bitte versuchen Sie es später noch einmal oder schauen Sie sich den Film auf Youtube an.",
-            status: config.status.BAD_REQUEST
+            message: "Es sind keine Sitzplätze mehr frei. Bitte versuchen Sie es später noch einmal oder schauen Sie sich den Film auf Youtube an.",
+            status: config.status.NO_CONTENT
         }
     }
 
     if(free_seats < personNumber) {
         return {
-            error: "Es sind nicht genug Sitzplätze frei. Versuche es mit weniger erneut.",
-            status: config.status.BAD_REQUEST
+            message: "Es sind nicht genug Sitzplätze frei. Versuche es mit weniger erneut.",
+            status: config.status.NO_CONTENT
         }
     }
 
@@ -45,7 +45,7 @@ module.exports.reserveTickets = async ({firstname, lastname, email, personNumber
 
     if(!removedFreeSeats) {
         return {
-            error: "Es ist ein Fehler aufgetreten. Bitte versuche es erneut.",
+            message: "Es ist ein Fehler aufgetreten. Bitte versuche es erneut.",
             status: config.status.BAD_REQUEST
         }
     }
@@ -67,17 +67,29 @@ module.exports.reserveTickets = async ({firstname, lastname, email, personNumber
             personNumber: personNumber
         });
         return {
-            error: "Es ist ein Fehler aufgetreten. Bitte versuche es erneut.",
+            message: "Es ist ein Fehler aufgetreten. Bitte versuche es erneut.",
             status: config.status.BAD_REQUEST
         }
     }
 
-    await sendVerificationEmail({
+    const sentVerification = await sendVerificationEmail({
         firstname: firstname,
         lastname: lastname,
         email: email,
         verification_id: verification_id
-    })
+    });
+
+    if(!sentVerification) {
+        return {
+            message: "Es ist ein Fehler aufgetreten. Bitte versuche es erneut.",
+            status: config.status.BAD_REQUEST
+        }
+    }else {
+        return {
+            message: "Ihre Reservierung wurde erfolgreich abgeschickt. Sie erhalten eine Email mit einem Link, um Ihre Reservierung zu bestätigen.",
+            status: config.status.OK
+        }
+    }
 
 
 }

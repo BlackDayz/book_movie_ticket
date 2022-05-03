@@ -26,13 +26,16 @@ module.exports.sendVerificationEmail = async ({firstname, lastname, email, verif
             seatIds: null,
         })
       };
-      
+      let sent = true;
       transporter.sendMail(message, (error, info) => {
         if (error) {
-            return console.log(error);
+            console.log(error);
+            sent = false;
+        }else {
+          console.log('Message sent: %s', info.messageId);
         }
-        console.log('Message sent: %s', info.messageId);
       });
+      return sent;
 }
 
 
@@ -55,8 +58,9 @@ module.exports.sendConfirmationEmail = async ({firstname, lastname, email, movie
     if (error) {
         sent = false;
         return console.log(error);
+    }else {
+      console.log('Message sent: %s', info.messageId);
     }
-    console.log('Message sent: %s', info.messageId);
   });
 
   return sent;

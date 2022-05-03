@@ -15,12 +15,12 @@ module.exports = (app, parser) => {
 
 
         if(!firstName || !lastName) {
-            res.status(nconf.get('status:BAD_REQUEST'))
+            return res.status(nconf.get('status:BAD_REQUEST')).json('Missing firstname or lastname');
         }
 
         //! VALIDATE INPUT
         if(!validator.isEmail(email) || !validator.isInt(time) || !validator.isInt(personNumber, {min: 1, max: 10})) {
-            res.status(nconf.get('status:BAD_REQUEST'))
+            return res.status(nconf.get('status:BAD_REQUEST')).json('Invalid input');
         }
 
         const reserveTicketsResult = await reserveTickets({
@@ -31,8 +31,7 @@ module.exports = (app, parser) => {
             time: time,
         })
 
-        res.redirect('/loading');
-
-        console.log(reserveTicketsResult || 'Kein return');
+        //send status code and message to frontend
+        return res.status(reserveTicketsResult.status).json(reserveTicketsResult.message);
     });
 }
