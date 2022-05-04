@@ -1,6 +1,8 @@
 src/json/config/config.json
 node_modules/
 
+public/js/config.js
+
 server/db/dbconfig.json
 server/db/table.json
 

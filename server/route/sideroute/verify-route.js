@@ -13,7 +13,7 @@ module.exports = (app) => {
         const token = validator.escape(req.query.token);
 
         if(!token) {
-            return res.status(nconf.get('status:BAD_REQUEST')).json('Missing token');
+            return res.status(nconf.get('status:BAD_REQUEST')).json('Der Token ist nicht vorhanden.');
         }
 
         const user = await getUserTmp_Token({
@@ -21,7 +21,7 @@ module.exports = (app) => {
         });
 
         if(!user) {
-            return res.status(nconf.get('status:NOT_FOUND')).json('User not found.');
+            return res.status(nconf.get('status:NOT_FOUND')).json('Der Nutzer wurde nicht gefunden! Überorüfe ob der Link richtig ist.');
         }
 
         const userId = generateUserId();
@@ -36,7 +36,7 @@ module.exports = (app) => {
         });
 
         if(!movedUserData) {
-            return res.status(nconf.get('status:INTERNAL_SERVER_ERROR'));
+            return res.status(nconf.get('status:INTERNAL_SERVER_ERROR')).json('Es ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.');
         }
 
         let seat_ids = [];
@@ -53,7 +53,7 @@ module.exports = (app) => {
             });
 
             if(!userSeatData) {
-                return res.status(nconf.get('status:INTERNAL_SERVER_ERROR')).json('Fehler im System. Bitte versuche es später noch einmal.');
+                return res.status(nconf.get('status:INTERNAL_SERVER_ERROR')).json('Es ist ein Fehler aufgetreten. Bitte versuche es später noch einmal.');
             }
             await delay(500);
         }
@@ -68,7 +68,29 @@ module.exports = (app) => {
         })
 
         if(!sentConfirm) {
-            return res.status(nconf.get('status:INTERNAL_SERVER_ERROR')).json('Es konnte keine E-Mail an den Benutzer gesendet werden.');
+            res.status(nconf.get('status:INTERNAL_SERVER_ERROR')).json('Es konnte keine Bestätigungs E-Mail an den Benutzer gesendet werden. Es wird nun 5 mal erneut versucht.');
+
+            let used = 0;
+            const tryAgainEmail = setInterval(() => {
+                if(used >= 5) {
+                    clearInterval(tryAgainEmail);
+                    return res.status(nconf.get('status:INTERNAL_SERVER_ERROR')).json('Es konnten in allen Versuchen keine Bestätigungsmail gesendet werden! Bitte kontaktiere '+nconf.get('email:email'));
+                }
+                const sentConfirm = await sendConfirmationEmail({
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    email: user.email,
+                    movie_id: user.time,
+                    seat_ids: seat_ids,
+                    user_id: userId
+                });
+
+                if(sentConfirm) {
+                    return clearInterval(tryAgainEmail);
+                }else {
+                    used++;
+                }
+            }, 5000);
         }
 
         res.status(nconf.get('status:OK')).json('Erfolgreich registriert. Du kannst diesen Tab nun schließen.');

@@ -6,6 +6,7 @@ const { addFreeSeats } = require("../updateData/addFreeSeats");
 const { insertUserToTmpDatabase } = require("../insertData/insertUserToTmpDatabase");
 const { generateVerificationId } = require("../generateData/generateVerificationId");
 const { sendVerificationEmail } = require("../sendEmail/sendEmail");
+const { deleteDataFromTmp } = require("../deleteData/deleteDataFromTmp");
 
 module.exports.reserveTickets = async ({firstname, lastname, email, personNumber, time}) => {
 
@@ -80,8 +81,17 @@ module.exports.reserveTickets = async ({firstname, lastname, email, personNumber
     });
 
     if(!sentVerification) {
+        const deleted = await deleteDataFromTmp({
+            verification_id: verification_id
+        });
+        if(!deleted) {
+            return {
+                message: "Es ist ein Fehler aufgetreten. Bitte versuche es erneut.",
+                status: config.status.BAD_REQUEST
+            }
+        }
         return {
-            message: "Es ist ein Fehler aufgetreten. Bitte versuche es erneut.",
+            message: "Es konnte keine Reservierung abgeschickt werden! Bitte versuche es erneut.",
             status: config.status.BAD_REQUEST
         }
     }else {

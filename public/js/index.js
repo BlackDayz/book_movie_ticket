@@ -1,4 +1,5 @@
 import { errormessage } from './errormessage.js';
+import { config } from './config.js';
 
 window.addEventListener('load', function () {
 
@@ -11,14 +12,8 @@ window.addEventListener('load', function () {
 
     var textIsLeft = true;
 
-
-    const images = [
-        "img/wolf_header.jpg",
-        "img/wolf_header_2.jpg"
-    ]
-
     function generateRandomIndex() {
-        return images[Math.floor(Math.random() * images.length)];
+        return config.images[Math.floor(Math.random() * config.images.length)];
     }
 
     setInterval(() => {
@@ -115,24 +110,25 @@ window.addEventListener('load', function () {
                     body: JSON.stringify(data)
                 }
 
-                function loader(remove) {
+                loader({
+                    remove: false
+                });
+
+                function loader({remove}) {
                     if(!remove) {
-                        document.getElementById('loading').classList.remove('display-none');
-                        document.getElementById('loading_remove').classList.add('display-none');
+                        document.querySelector('.loader').classList.remove('display-none');
+                        document.querySelector('body').style.pointerEvents = 'none';
+                        document.querySelector('body').style.cursor = 'wait';
                     } else {
-                        document.getElementById('loading').classList.add('display-none');
+                        document.querySelector('.loader').classList.add('display-none');
+                        document.querySelector('body').style.pointerEvents = 'all';
+                        document.querySelector('body').style.cursor = '';
                     }
 
-
-                        const loading_quotes = [
-                            "Es lädt... immernoch... mal schauen.. ja, immernoch",
-                            "Während dessen Du hier so wartest kannst du ja mal bei unserem Youtube Kanal vorbeischauen.",
-                            "Der Server braucht anscheinend noch eine Mittagspause.",
-                            "Sollte Du keine E-Mail nach maximal 1h bekommen haben, melde dich bei info@gruenes-feuer.de und gebe die gleichen Daten an, die Du gerade eingeben hast."
-                        ];
-
+                        const loading_quotes = config.loading_quotes;
+                        
                         const loading_quote_div = document.getElementById('loading_quote');
-                        console.log(loading_quotes[loading_quotes.length - 1])
+                        
                         loading_quote_div.innerHTML = loading_quotes[loading_quotes.length - 1];
                         const quote_interval = setInterval(() => {
                             loading_quote_div.classList.add('loading_quote_fade_out');
@@ -156,12 +152,16 @@ window.addEventListener('load', function () {
                 }
 
 
-                fetch('http://192.168.1.210:8080/reserveticket', options)
+                fetch(`${window.location.protocol}://${window.location.host}/reserveticket`, options)
                     .then(async (res) => {
                         const response = {
                             status: res.status,
                             message: await res.json()
                         }
+
+                        loader({
+                            remove: true
+                        });
 
                         return errormessage({
                             status: response.status,
