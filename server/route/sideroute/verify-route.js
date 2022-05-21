@@ -8,7 +8,7 @@ const { moveUserFromTmpToProd } = require('../../../utils/functions/moveData/mov
 const { sendConfirmationEmail } = require('../../../utils/functions/sendEmail/sendEmail');
 const { delay } = require('../../../utils/functions/delay/delay');
 
-module.exports = (app) => {
+module.exports = async (app) => {
     app.get(nconf.get('routing:mainRoute')+nconf.get('routing:verify'), async (req, res) => {
         const token = validator.escape(req.query.token);
 
@@ -71,7 +71,7 @@ module.exports = (app) => {
             res.status(nconf.get('status:INTERNAL_SERVER_ERROR')).json('Es konnte keine Bestätigungs E-Mail an den Benutzer gesendet werden. Es wird nun 5 mal erneut versucht.');
 
             let used = 0;
-            const tryAgainEmail = setInterval(() => {
+            const tryAgainEmail = setInterval(async () => {
                 if(used >= 5) {
                     clearInterval(tryAgainEmail);
                     return res.status(nconf.get('status:INTERNAL_SERVER_ERROR')).json('Es konnten in allen Versuchen keine Bestätigungsmail gesendet werden! Bitte kontaktiere '+nconf.get('email:email'));

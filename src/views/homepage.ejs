@@ -11,15 +11,16 @@
         <div class="errormessage green fixed">
             <span id="err_msg" class="white bold"></span>
         </div>
-        <header class="home_header">
+
+        <header class="home_header is-widescreen">
             <div class="home_header_title">
                 <div class="home_header_right right" id="media_slide">
                     <img src="img/wolf_header.jpg" id="media" />
                 </div>
                 <div class="home_header_left left" id="text_slide">
-                    <h1>Gr&uuml;nes Feuer</h1>
-                    <h2>Die Naturdokumentation</h2>
-                    <h3>Am 11.06.2022 in der Brotfabrik</h3>
+                    <h1 class="title has-text-white">Gr&uuml;nes Feuer</h1>
+                    <h2 class="subtitle has-text-white">Die Naturdokumentation</h2>
+                    <h3 class="is-size-6 has-text-white">Am 11.06.2022 in der Brotfabrik</h3>
                 </div>
             </div>
             <a href="#grab_your_tickets">
@@ -29,7 +30,10 @@
                 </div>
             </a>
         </header>
-        <main id="grab_your_tickets">
+
+
+
+        <main id="grab_your_tickets" class="section is-medium mb-6">
             <div id="loading_remove">
                 <h3 class="center bold">Reserviere Dir jetzt Tickets</h3>
 
@@ -80,6 +84,25 @@
                 </div>
             </div>
         </main>
+
+        <footer class="footer mt-6">
+            <div class="content has-text-centered">
+              <p>
+                <strong>Gr&uuml;nes Feuer Web</strong> by <a href="https://www.blackdayz.de.com">BlackDayz</a>. The source code is licensed
+                <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. 
+            </p>
+            <p>
+                <a href="/policy">Privacy</a>
+                |
+                <a href="/tos">TOS</a>
+            </p>
+            <p>
+                <a href="https://github.com/Blackdayz/gruenes_feuer" target="_blank" rel="noopener">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+            </p>
+            </div>
+          </footer>
 
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="js/index.js" type="module"></script>
